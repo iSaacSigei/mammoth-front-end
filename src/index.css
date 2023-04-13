@@ -1,0 +1,13 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.container{
+  /* background-image: url('https://images.pexels.com/photos/3013440/pexels-photo-3013440.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+  width: 100vw;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center; */
+  background-color: aqua;
+
+}
