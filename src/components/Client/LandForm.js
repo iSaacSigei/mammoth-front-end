@@ -1,6 +1,6 @@
 import React,{useState} from "react";
 import { PhotoIcon } from "@heroicons/react/24/solid";
-
+import NavBar from "./NavBar";
 export default function LandForm({user}) {
     console.log(user)
     const [location, setLocation]=useState("")
@@ -40,6 +40,8 @@ export default function LandForm({user}) {
     
 
   return (
+    <>
+    <NavBar user={user}/>
     <div className="lg:m-auto lg:w-1/2 md:px-10 sm:px-10 pt-12 mb-12 pb-12">
       <form onSubmit={handleLand}>
         <div className="space-y-12">
@@ -242,5 +244,6 @@ export default function LandForm({user}) {
         </div>
       </form>
     </div>
+    </>
   );
 }
