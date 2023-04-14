@@ -1,5 +1,29 @@
-import React from "react"
+import React,{useState} from "react"
+
 export default function Signup() {
+
+  const [formState, setFormState] = useState({})
+    
+  function formChange(e){
+    const value = e.target.value
+    const name = e.tartget.name
+    setFormState({...formState, [name]: value})
+  function handleSubmit(e){
+    e.preventDefault()
+    fetch('',{
+      method: "POST",
+      headers:{
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        username: formState.username,
+        email: formState.email,
+        password: formState.password,
+        password_confirmation: formState.password_confirmation
+      })
+    })
+  }
+  }
     return (
       <>
         <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-6">
