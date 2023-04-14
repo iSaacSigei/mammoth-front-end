@@ -1,10 +1,10 @@
 import React from "react";
-import Adminbody from "../../Adminbody.css";
+import "../../Adminbody.css";
 import AllLands from './AllLands'
 const AdminBody = () => {
   return (
     <>
-      <div className=" c1 lg:grid lg:grid-cols-3 gap-10 items-center sm:flex sm:flex-col md:grid md:grid-cols-3">
+      <div className=" c1 lg:grid lg:grid-cols-3 gap-10 items-center sm:grid sm:grid-cols-2 md:grid md:grid-cols-3">
         <div className="bg-[#ef6c00] h-32 md:h-24">
           <p className="text-white">Pending</p>
         </div>

@@ -1,30 +1,31 @@
 
 import { Fragment, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import AdminBody from './AdminBody'
 import Logo from '../../components/images/woolly-mammoth-drawing-elephant-clip-art-png-favpng-DvwsEH9iK0Cdqa7LLSPm6PD83-removebg-preview (2).png'
 import {
   Bars3Icon,
   BellIcon,
-  CalendarIcon,
   ChartPieIcon,
   Cog6ToothIcon,
-  DocumentDuplicateIcon,
   FolderIcon,
   HomeIcon,
   UsersIcon,
   XMarkIcon,
+  CalculatorIcon,
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 
 const navigation = [
-  { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-  { name: 'Users', href: '#', icon: UsersIcon, current: false },
-  { name: 'All Lands', href: '#', icon: FolderIcon, current: false },
-  { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
+  { name: 'Dashboard', href: '/admin', icon: HomeIcon, current: true },
+  { name: 'Users', href: '/admins/:admin_id/users', icon: UsersIcon, current: false },
+  { name: 'All Lands', href: '/admin/all_lands', icon: FolderIcon, current: false },
+  { name: 'Quotation Calculator', href: '/quotation', icon: CalculatorIcon, current: false },
+  { name: 'Reports', href: '/reports', icon: ChartPieIcon, current: false },
 ]
 const teams = [
-  { id: 1, name: 'Our Admins', href: '#', initial: 'W', current: true },
+  { id: 1, name: 'Our Admins', href: '#', current: true },
 ]
 const userNavigation = [
   { name: 'Your profile', href: '#' },
@@ -97,8 +98,8 @@ export default function AdminDashboard() {
                           <ul role="list" className="-mx-2 space-y-1">
                             {navigation.map((item) => (
                               <li key={item.name}>
-                                <a
-                                  href={item.href}
+                                <Link
+                                  to={item.href}
                                   className={classNames(
                                     item.current
                                       ? 'bg-gray-800 text-white'
@@ -108,7 +109,7 @@ export default function AdminDashboard() {
                                 >
                                   <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" />
                                   {item.name}
-                                </a>
+                                </Link>
                               </li>
                             ))}
                           </ul>
@@ -118,8 +119,8 @@ export default function AdminDashboard() {
                           <ul role="list" className="-mx-2 mt-2 space-y-1">
                             {teams.map((team) => (
                               <li key={team.name}>
-                                <a
-                                  href={team.href}
+                                <Link
+                                  to={team.href}
                                   className={classNames(
                                     team.current
                                       ? 'bg-gray-800 text-white'
@@ -131,19 +132,19 @@ export default function AdminDashboard() {
                                     {team.initial}
                                   </span>
                                   <span className="truncate">{team.name}</span>
-                                </a>
+                                </Link>
                               </li>
                             ))}
                           </ul>
                         </li>
                         <li className="mt-auto">
-                          <a
-                            href="#"
+                          <Link
+                            to="#"
                             className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
                           >
                             <Cog6ToothIcon className="h-6 w-6 shrink-0" aria-hidden="true" />
                             Settings
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </nav>
@@ -154,7 +155,6 @@ export default function AdminDashboard() {
           </Dialog>
         </Transition.Root>
 
-        {/* Static sidebar for desktop */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4">
@@ -172,8 +172,8 @@ export default function AdminDashboard() {
                   <ul role="list" className="-mx-2 space-y-1">
                     {navigation.map((item) => (
                       <li key={item.name}>
-                        <a
-                          href={item.href}
+                        <Link
+                          to={item.href}
                           className={classNames(
                             item.current
                               ? 'bg-gray-800 text-white'
@@ -183,18 +183,18 @@ export default function AdminDashboard() {
                         >
                           <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" />
                           {item.name}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
                 </li>
                 <li>
-                  <div className="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
+                  <div className="text-xs font-semibold leading-6 text-gray-400">Admin Team</div>
                   <ul role="list" className="-mx-2 mt-2 space-y-1">
                     {teams.map((team) => (
                       <li key={team.name}>
-                        <a
-                          href={team.href}
+                        <Link
+                          to={team.href}
                           className={classNames(
                             team.current
                               ? 'bg-gray-800 text-white'
@@ -202,11 +202,8 @@ export default function AdminDashboard() {
                             'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                           )}
                         >
-                          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">
-                            {team.initial}
-                          </span>
                           <span className="truncate">{team.name}</span>
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -290,15 +287,15 @@ export default function AdminDashboard() {
                       {userNavigation.map((item) => (
                         <Menu.Item key={item.name}>
                           {({ active }) => (
-                            <a
-                              href={item.href}
+                            <Link
+                              to={item.href}
                               className={classNames(
                                 active ? 'bg-gray-50' : '',
                                 'block px-3 py-1 text-sm leading-6 text-gray-900'
                               )}
                             >
                               {item.name}
-                            </a>
+                            </Link>
                           )}
                         </Menu.Item>
                       ))}
