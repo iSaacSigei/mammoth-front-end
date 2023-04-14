@@ -1,4 +1,6 @@
 import React,{useState} from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { PhotoIcon } from "@heroicons/react/24/solid";
 
 export default function LandForm({user}) {
@@ -9,6 +11,8 @@ export default function LandForm({user}) {
     const [city, setCity]=useState("")
     const [state, setState]=useState("")
     const [zipCode, setZipCode]=useState("")
+    // const [photo, setPhoto] = useState(null);
+
     console.log(location,description,streetAddress,city,state,zipCode)
 
     const handleLand=(e)=>{
@@ -24,9 +28,12 @@ export default function LandForm({user}) {
                 state:state,
                 description:description,
                 zipcode:zipCode,
-                street_address:streetAddress
-            })
-        })
+                street_address:streetAddress,
+                // photo:photo
+            }),
+        }).then(() => {
+          toast.success('Land saved successfully!');
+        });
     }
 
   return (
