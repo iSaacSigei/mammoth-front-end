@@ -2,6 +2,7 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
+import Logo from '../images/woolly-mammoth-drawing-elephant-clip-art-png-favpng-DvwsEH9iK0Cdqa7LLSPm6PD83-removebg-preview (2).png'
 const navigation = [
   { name: 'Home', href: '/', current: true },
   { name: 'About Us', href: 'about_us', current: false },
@@ -35,14 +36,15 @@ export default function NavBar({user}) {
                 <div className="flex flex-shrink-0 items-center">
                   <img
                     className="block h-8 w-auto lg:hidden"
-                    src=""
+                    src={Logo}
                     alt="Your Company"
                   />
                   <img
                     className="hidden h-8 w-auto lg:block"
-                    src=""
+                    src={Logo}
                     alt="Your Company"
                   />
+                  <p className='text-xl pl-8 text-white'>Mammoth</p>
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">

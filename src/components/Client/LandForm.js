@@ -1,6 +1,6 @@
 import React,{useState} from "react";
 import { PhotoIcon } from "@heroicons/react/24/solid";
-
+import NavBar from "./NavBar";
 export default function LandForm({user}) {
     console.log(user)
     const [location, setLocation]=useState("")
@@ -9,7 +9,7 @@ export default function LandForm({user}) {
     const [city, setCity]=useState("")
     const [state, setState]=useState("")
     const [zipCode, setZipCode]=useState("")
-    console.log(location,description,streetAddress,city,state,zipCode)
+    const [image, setImage]=useState(null)
 
     const handleLand=(e)=>{
         e.preventDefault()
@@ -29,7 +29,19 @@ export default function LandForm({user}) {
         })
     }
 
+    const handleFileUpload=(e)=>{
+        setImage(e.target.files[0]);
+        
+    }
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+      };
+    
+
   return (
+    <>
+    <NavBar user={user}/>
     <div className="lg:m-auto lg:w-1/2 md:px-10 sm:px-10 pt-12 mb-12 pb-12">
       <form onSubmit={handleLand}>
         <div className="space-y-12">
@@ -186,7 +198,7 @@ export default function LandForm({user}) {
           </button>
         </div>
       </form>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="col-span-full">
           <label
             htmlFor="cover-photo"
@@ -209,6 +221,7 @@ export default function LandForm({user}) {
                   <input
                     id="file-upload"
                     name="file-upload"
+                    onChange={handleFileUpload}
                     type="file"
                     className="sr-only"
                   />
@@ -231,5 +244,6 @@ export default function LandForm({user}) {
         </div>
       </form>
     </div>
+    </>
   );
 }
