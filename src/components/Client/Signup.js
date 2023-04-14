@@ -1,7 +1,51 @@
-import React from "react"
+import React, { useState } from "react"
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function Signup() {
+    const [email, setEmail]=useState("")
+    const [password, setPassword]=useState('')
+    const [password_confirmation, setPasswordConfirmatio]=useState('')
+    const [username, setUsername]=useState("")
+    const [errors, setErrors] = useState([]);
+
+    const nav=useNavigate()
+    const showToastMessage = () => {
+        toast.success("Signup Successfull!", {
+          position: toast.POSITION.TOP_CENTER,
+          className: 'toast-message'    
+        });
+      };
+
+      function handleSubmit(e) {
+        e.preventDefault();
+        setErrors([]);
+        fetch("/users", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            username,
+            password,
+            password_confirmation
+          }),
+        }).then((r) => {
+          if (r.ok){
+            showToastMessage();
+              nav("/user/login");
+          } else {
+            r.json().then((err) => {
+              setErrors(err.errors);
+              console.log(errors);
+            });
+          }
+        });
+      }
     return (
       <>
+      <ToastContainer/>
         <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-6">
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
             <img
@@ -15,19 +59,20 @@ export default function Signup() {
 
           <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-md">
             <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
-              <form className="space-y-6" action="#" method="POST">
+              <form onSubmit={handleSubmit} className="space-y-6" action="#" method="POST">
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                     Email address
                   </label>
                   <div className="mt-2">
                     <input
+                      onChange={(e)=>setEmail(e.target.value)}
                       id="email"
                       name="email"
                       type="email"
                       autoComplete="email"
                       required
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                   </div>
                 </div>
@@ -39,11 +84,11 @@ export default function Signup() {
                   <div className="mt-2">
                     <input
                       id="password"
+                      onChange={(e)=>setPassword(e.target.value)}
                       name="password"
                       type="password"
-                      autoComplete="current-password"
                       required
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                   </div>
                 </div>
@@ -53,11 +98,12 @@ export default function Signup() {
                   </label>
                   <div className="mt-2">
                     <input
-                      id="password"
-                      name="password"
+                      id="password_confirmation"
+                      onChange={(e)=>setPasswordConfirmatio(e.target.value)}
+                      name="password_confirmation"
                       type="password"
                       required
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                   </div>
                 </div>
@@ -68,10 +114,11 @@ export default function Signup() {
                   <div className="mt-2">
                     <input
                       id="username"
+                      onChange={(e)=>setUsername(e.target.value)}
                       name="username"
                       type="text"
                       required
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                   </div>
                 </div>
