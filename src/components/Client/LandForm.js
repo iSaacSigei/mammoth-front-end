@@ -1,10 +1,37 @@
-import React from "react";
+import React,{useState} from "react";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 
-export default function LandForm() {
+export default function LandForm({user}) {
+    console.log(user)
+    const [location, setLocation]=useState("")
+    const [description, setDescription]=useState("")
+    const [streetAddress, setStreetAddress]=useState("")
+    const [city, setCity]=useState("")
+    const [state, setState]=useState("")
+    const [zipCode, setZipCode]=useState("")
+    console.log(location,description,streetAddress,city,state,zipCode)
+
+    const handleLand=(e)=>{
+        e.preventDefault()
+        fetch(`/users/${user.id}/lands`,{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                location:location,
+                city:city,
+                state:state,
+                description:description,
+                zipcode:zipCode,
+                street_address:streetAddress
+            })
+        })
+    }
+
   return (
-    <div className="m-auto lg:w-1/2 pt-12 mb-12 pb-12">
-      <form>
+    <div className="lg:m-auto lg:w-1/2 md:px-10 sm:px-10 pt-12 mb-12 pb-12">
+      <form onSubmit={handleLand}>
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
             <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -18,21 +45,19 @@ export default function LandForm() {
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div className="sm:col-span-4">
                 <label
-                  htmlFor="username"
+                  htmlFor="location"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
                   Location Name
                 </label>
                 <div className="mt-2">
                   <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                    <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">
-                      Land Location/
-                    </span>
                     <input
                       type="text"
+                      onChange={(e)=>setLocation(e.target.value)}
                       name="location"
-                      id="location"
-                      className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                      id="location" 
+                      className="block flex-1 border-0 bg-transparent py-1.5 px-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       placeholder="location/area"
                     />
                   </div>
@@ -49,9 +74,10 @@ export default function LandForm() {
                 <div className="mt-2">
                   <textarea
                     id="about"
+                    onChange={(e)=>setDescription(e.target.value)}
                     name="about"
                     rows={3}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5  px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     defaultValue={""}
                   />
                 </div>
@@ -82,10 +108,11 @@ export default function LandForm() {
                 <div className="mt-2">
                   <input
                     type="text"
+                    onChange={(e)=>setStreetAddress(e.target.value)}
                     name="street-address"
                     id="street-address"
                     autoComplete="street-address"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -101,9 +128,10 @@ export default function LandForm() {
                   <input
                     type="text"
                     name="city"
+                    onChange={(e)=>setCity(e.target.value)}
                     id="city"
                     autoComplete="address-level2"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -119,9 +147,10 @@ export default function LandForm() {
                   <input
                     type="text"
                     name="region"
+                    onChange={(e)=>setState(e.target.value)}
                     id="region"
                     autoComplete="address-level1"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -138,8 +167,9 @@ export default function LandForm() {
                     type="text"
                     name="postal-code"
                     id="postal-code"
+                    onChange={(e)=>setZipCode(e.target.value)}
                     autoComplete="postal-code"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -147,18 +177,12 @@ export default function LandForm() {
           </div>
         </div>
 
-        <div className="mt-6 flex items-center justify-end gap-x-6">
-          <button
-            type="button"
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            Cancel
-          </button>
+        <div className="mt-6 flex items-center justify-end gap-x-6 mb-10">
           <button
             type="submit"
             className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            Submit
+            Save
           </button>
         </div>
       </form>
@@ -199,16 +223,10 @@ export default function LandForm() {
         </div>
         <div className="mt-6 flex items-center justify-end gap-x-6">
           <button
-            type="button"
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            Cancel
-          </button>
-          <button
             type="submit"
             className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            Submit
+            Save
           </button>
         </div>
       </form>
