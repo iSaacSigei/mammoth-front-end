@@ -12,7 +12,6 @@ export default function Signup() {
             <h2 className="mt-6 text-center text-xl font-bold tracking-tight text-indigo-900">Create your account</h2>
      
           </div>
-          href="#"
 
           <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-md">
             <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
@@ -80,7 +79,7 @@ export default function Signup() {
                 <div>
                   <button
                     type="submit"
-                    className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="flex w-full justify-center rounded-md bg-indigo-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
                     Sign up
                   </button>
