@@ -24,13 +24,14 @@ export default function LandForm({user}) {
                 state:state,
                 description:description,
                 zipcode:zipCode,
-                street_address:streetAddress
+                street_address:streetAddress,
+                admin_id: 1
             })
         })
     }
 
     const handleFileUpload=(e)=>{
-        setImage(e.target.files[0]);
+        // setImage(e.target.files[0]);
         
     }
     const handleSubmit = (event) => {
