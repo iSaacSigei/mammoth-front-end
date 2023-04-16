@@ -1,28 +1,6 @@
-const people = [
-  {
-    name: "Wesgate Plots",
-    title: "Square plot, near Mall",
-    department: "clean",
-    parcel_id: "JGFPOO12",
-    email: "Westgate 50*100 plot",
-    role: "Nairobi",
-    image:
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    name: "Wesgate Plots",
-    title: "Square plot, near Mall",
-    department: "clean",
-    parcel_id: "JGFPOO12",
-    email: "Westgate 50*100 plot",
-    role: "Nairobi",
-    image:
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  // More people...
-];
-
-export default function Example() {
+import React from "react";
+import { Link } from "react-router-dom";
+export default function AllLands({lands}) {
   let index = 1; // Initialize the index counter to 1
 
   return (
@@ -86,8 +64,8 @@ export default function Example() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
-                {people.map((person) => (
-                  <tr key={person.email}>
+                {lands.map((land) => (
+                  <tr key={land.index}>
                     <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
                       {index++}{" "}
                       {/* Increment the index counter and display its value */}
@@ -98,30 +76,30 @@ export default function Example() {
                         <div className="h-11 w-11 flex-shrink-0">
                           <img
                             className="h-11 w-11 rounded-full"
-                            src={person.image}
+                            src={land.image}
                             alt=""
                           />
                         </div>
                         <div className="ml-4">
                           <div className="font-medium text-gray-900">
-                            {person.name}
+                            {land.title}
                           </div>
                           <div className="mt-1 text-gray-500">
-                            {person.email}
+                            {land.location}
                           </div>
                         </div>
                       </div>
                     </td>
                     <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                      <div className="text-gray-900">{person.par}</div>
+                      <div className="text-gray-900">{land.par}</div>
                       <div className="mt-1 text-gray-500">
-                        {person.parcel_id}
+                        {land.parcel_id}
                       </div>
                     </td>
                     <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                      <div className="text-gray-900">{person.title}</div>
+                      <div className="text-gray-900">{land.title}</div>
                       <div className="mt-1 text-gray-500">
-                        {person.department}
+                        {land.description}
                       </div>
                     </td>
                     <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
@@ -130,15 +108,15 @@ export default function Example() {
                       </span>
                     </td>
                     <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                      {person.role}
+                      {land.street_address}
                     </td>
                     <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                      <a
-                        href="#"
+                      <Link
+                        to={`/admin/give_quotation/${land.id}`}
                         className="text-indigo-600 hover:text-indigo-900"
                       >
-                        Send Quotation<span className="sr-only">, {person.name}</span>
-                      </a>
+                        Send Quotation<span className="sr-only">, {land.price}</span>
+                      </Link>
                     </td>
                   </tr>
                 ))}

@@ -1,7 +1,6 @@
 import { Fragment, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import AdminBody from "./AdminBody";
 import Logo from "../../components/images/woolly-mammoth-drawing-elephant-clip-art-png-favpng-DvwsEH9iK0Cdqa7LLSPm6PD83-removebg-preview (2).png";
 import {
   Bars3Icon,
@@ -53,17 +52,43 @@ function classNames(...classes) {
 
 export default function AdminDashboard({ admin }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  console.log(admin.id)
-  const [lands, setLands] = useState([]);
-  console.log(lands)
+  const [land, setLands] = useState([]);
+  const { id } = useParams();
+  const [click, setClick] = useState(false);
+  const [price, setPrice]=useState('')
+  const nav=useNavigate()
   useEffect(() => {
-   fetch(`/admins/${admin.id}/lands`)
-   .then(r=>r.json())
-   .then((data)=>{
-    console.log(data)
-    setLands(data)
-   })
-  }, [admin.id]);
+    fetch(`/admins/${admin.id}/lands/${id}`)
+      .then((r) => r.json())
+      .then((data) => {
+        console.log(data);
+        setLands(data);
+      });
+  }, [id]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`/admins/${admin.id}/lands/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          price: price,
+        }),
+      });
+      if (response.ok) {
+        const updatedLand = await response.json();
+          nav('/admin')
+      } else {
+        throw new Error("Failed to update land.");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
 
   return (
     <>
@@ -373,12 +398,70 @@ export default function AdminDashboard({ admin }) {
               </div>
             </div>
           </div>
-
-          <main className="py-10">
+          <div className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">
-              <AdminBody lands={lands} />
+              {/* Product details */}
+              <div className="mx-auto mt-14 max-w-2xl sm:mt-16 lg:col-span-3 lg:row-span-2 lg:row-end-2 lg:mt-0 lg:max-w-none">
+                <div className="flex flex-col-reverse">
+                  <div className="mt-4">
+                    <div className="flex flex-col items-center bg-white   shadow md:flex-row md:max-w-full hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                      <img
+                        className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
+                        src={land.image}
+                        alt="land_image"
+                      />
+                      <div className="flex flex-col justify-between p-4 leading-normal">
+                        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                          {land.title}
+                        </h5>
+                        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                          {land.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <p className="mt-6 text-gray-500">
+                  Location: {land.location},in {land.city} city
+                </p>
+                <p className=" text-gray-500">
+                  Street Address: {land.street_address}
+                </p>
+                <p className=" text-gray-500">Parcel ID: {land.parcel_id}</p>
+
+                <div className="mt-10 flex flex-row justify-center">
+                  <div>
+                    <button
+                      onClick={() => setClick(true)}
+                      type="button"
+                      className="flex w-full items-center rounded-md border border-transparent bg-indigo-600 px-3 py-1.5 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2"
+                    >
+                      Give Quotation
+                    </button>
+                  </div>
+                </div>
+                {click?(<div className="mt-10 border-t border-gray-200 pt-10">
+                  <p className="py-6">Fill and submit the form below</p>
+                  <form onSubmit={handleSubmit} className="flex items-center justify-between w-1/2">
+                    <input
+                      id="price"
+                      onChange={(e)=>setPrice(e.target.value)}
+                      className="block border py-2.5 rounded  pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
+                      placeholder="quotation"
+                      type="decimal"
+                      name="quotation"
+                    />
+                    <button className="flex w-1/4 items-center rounded-md border border-transparent bg-indigo-600 px-3 py-1.5 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
+                      Submit
+                    </button>
+                  </form>
+                </div>):null}
+              </div>
+
+              <div className="mx-auto mt-16 w-full max-w-2xl lg:col-span-4 lg:mt-0 lg:max-w-none"></div>
             </div>
-          </main>
+          </div>
         </div>
       </div>
     </>

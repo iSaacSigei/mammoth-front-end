@@ -5,14 +5,27 @@ import Login from "./components/Client/Login";
 import LandForm from "./components/Client/LandForm";
 import { Route, Routes } from "react-router-dom";
 import Admin from "./components/Admin/AdminDashboard"
+import AdminLogin from './components/Admin/AdminLogin'
+import LandPage from './components/Admin/LandPage'
 export default function App() {
   const [user, setUser]=useState({})
+  const [admin, setAdmin]=useState({})
+  console.log(admin)
   useEffect(()=>{
     fetch('/user')
     .then(r=>r.json())
     .then(user=>{
       console.log(user)
       setUser(user)
+    })
+  },[])
+  
+  useEffect(()=>{
+    fetch('/admin')
+    .then(r=>r.json())
+    .then(user=>{
+      console.log(user)
+      setAdmin(user)
     })
   },[])
 
@@ -23,7 +36,9 @@ export default function App() {
       <Route path="/signup" element={<Signup/>}/>
       <Route path="/user/login" element={<Login/>}/>
       <Route path="/user/landform" element={<LandForm user={user}/>}/>
-      <Route path="/admin" element={<Admin/>}/>
+      <Route path="/admin" element={<Admin admin={admin}/>}/>
+      <Route path='/admin_signin' element={<AdminLogin/>}/>
+      <Route path="/admin/give_quotation/:id" element={<LandPage admin={admin}/>}/>
     </Routes>
 
     </>

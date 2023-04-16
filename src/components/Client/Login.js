@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Logo from '../images/woolly-mammoth-drawing-elephant-clip-art-png-favpng-DvwsEH9iK0Cdqa7LLSPm6PD83-removebg-preview (2).png'
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const nav =useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("/login", {
+    fetch("/user_login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -28,10 +29,11 @@ export default function Login() {
     <>
       <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <img className="mx-auto h-12 w-auto" src="" alt="Your Company" />
-          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
+          <img className="mx-auto h-12 w-auto" src={Logo} alt="Your Company" />
+          <h2 className="mt-6 text-center text-2xl font-bold tracking-tight text-indigo-700">
             Sign in to your account
           </h2>
+         <p className="text-center text-indigo-900">Or <Link to='/admin_signin'>Login as admin</Link></p>
         </div>
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">

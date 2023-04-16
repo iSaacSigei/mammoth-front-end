@@ -1,7 +1,7 @@
 import React from "react";
 import "../../Adminbody.css";
 import AllLands from './AllLands'
-const AdminBody = () => {
+const AdminBody = ({lands}) => {
   return (
     <>
       <div className=" c1 lg:grid lg:grid-cols-3 gap-10 items-center sm:grid sm:grid-cols-2 md:grid md:grid-cols-3">
@@ -16,7 +16,7 @@ const AdminBody = () => {
         </div>
       </div>
       <div className="mt-10">
-        <AllLands/>
+        <AllLands lands={lands}/>
       </div>
     </>
   );
