@@ -23,7 +23,7 @@ const navigation = [
   { name: "Dashboard", href: "/admin", icon: HomeIcon, current: true },
   {
     name: "Users",
-    href: "/admins/:admin_id/users",
+    href: "/admins/users",
     icon: UsersIcon,
     current: false,
   },

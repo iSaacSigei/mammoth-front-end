@@ -1,20 +1,20 @@
-import { Fragment } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Link } from 'react-router-dom'
-import Logo from '../images/woolly-mammoth-drawing-elephant-clip-art-png-favpng-DvwsEH9iK0Cdqa7LLSPm6PD83-removebg-preview (2).png'
+import { Fragment } from "react";
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
+import Logo from "../images/woolly-mammoth-drawing-elephant-clip-art-png-favpng-DvwsEH9iK0Cdqa7LLSPm6PD83-removebg-preview (2).png";
 const navigation = [
-  { name: 'Home', href: '/', current: true },
-  { name: 'About Us', href: 'about_us', current: false },
-  { name: 'Contact Us', href: 'contact_us', current: false },
-]
+  { name: "Home", href: "/", current: true },
+  { name: "About Us", href: "about_us", current: false },
+  { name: "Contact Us", href: "contact_us", current: false },
+];
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
-export default function NavBar({user}) {
-  console.log(user.username)
+export default function NavBar({ user }) {
+  console.log(user.username);
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -44,7 +44,7 @@ export default function NavBar({user}) {
                     src={Logo}
                     alt="Your Company"
                   />
-                  <p className='text-xl pl-8 text-white'>Mammoth</p>
+                  <p className="text-xl pl-8 text-white">Mammoth</p>
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
@@ -53,10 +53,12 @@ export default function NavBar({user}) {
                         key={item.name}
                         to={item.href}
                         className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'rounded-md px-3 py-2 text-sm font-medium'
+                          item.current
+                            ? "bg-gray-900 text-white"
+                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                          "rounded-md px-3 py-2 text-sm font-medium"
                         )}
-                        aria-current={item.current ? 'page' : undefined}
+                        aria-current={item.current ? "page" : undefined}
                       >
                         {item.name}
                       </Link>
@@ -75,12 +77,22 @@ export default function NavBar({user}) {
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
-                  <div>
+                  {user.error==="Not authorized"?(<div>
+                    <Menu.Button className="flex  bg-gray-800 text-sm focus:outline-none">
+                      <Link
+                        to="/user/login"
+                        className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+                      >
+                        Login
+                      </Link>{" "}
+                    </Menu.Button>
+                  </div>):
+                  (<div>
                     <Menu.Button className="flex  bg-gray-800 text-sm focus:outline-none">
                       <span className="text-white pr-2  ">Welcome </span>
                       <p className="text-white"> {user.username}</p>
                     </Menu.Button>
-                  </div>
+                  </div>)}
                   <Transition
                     as={Fragment}
                     enter="transition ease-out duration-100"
@@ -95,7 +107,10 @@ export default function NavBar({user}) {
                         {({ active }) => (
                           <Link
                             to="/user/profile"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block px-4 py-2 text-sm text-gray-700"
+                            )}
                           >
                             Your Profile
                           </Link>
@@ -105,7 +120,10 @@ export default function NavBar({user}) {
                         {({ active }) => (
                           <Link
                             to="/user/profile"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block px-4 py-2 text-sm text-gray-700"
+                            )}
                           >
                             Settings
                           </Link>
@@ -114,7 +132,10 @@ export default function NavBar({user}) {
                       <Menu.Item>
                         {({ active }) => (
                           <button
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block px-4 py-2 text-sm text-gray-700"
+                            )}
                           >
                             Sign out
                           </button>
@@ -133,12 +154,14 @@ export default function NavBar({user}) {
                 <Disclosure.Button
                   key={item.name}
                   as="Link"
-                  href  ={item.href}
+                  href={item.href}
                   className={classNames(
-                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                    'block rounded-md px-3 py-2 text-base font-medium'
+                    item.current
+                      ? "bg-gray-900 text-white"
+                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                    "block rounded-md px-3 py-2 text-base font-medium"
                   )}
-                  aria-current={item.current ? 'page' : undefined}
+                  aria-current={item.current ? "page" : undefined}
                 >
                   {item.name}
                 </Disclosure.Button>
@@ -148,5 +171,5 @@ export default function NavBar({user}) {
         </>
       )}
     </Disclosure>
-  )
+  );
 }
