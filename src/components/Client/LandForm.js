@@ -3,6 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import NavBar from "./NavBar";
+import { useNavigate } from "react-router-dom";
 export default function LandForm({user}) {
     console.log(user)
     const [location, setLocation]=useState("")
@@ -11,31 +12,53 @@ export default function LandForm({user}) {
     const [city, setCity]=useState("")
     const [state, setState]=useState("")
     const [zipCode, setZipCode]=useState("")
-    const [image, setImage]=useState(null)
+    const [imageData, setImageData] = useState(null);
+    const [title, setTitle] = useState("")
+    const navigate = useNavigate();
+console.log(imageData)
 
-    const handleLand=(e)=>{
-        e.preventDefault()
-        fetch(`/users/${user.id}/lands`,{
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json'
-            },
-            body:JSON.stringify({
-                location:location,
-                city:city,
-                state:state,
-                description:description,
-                zipcode:zipCode,
-                street_address:streetAddress,
-                admin_id: 1
-            })
-        })
-    }
+const handleLand = (e) => {
+  e.preventDefault();
+  const formData = new FormData();
+  formData.append('location', location);
+  formData.append('title', title);
+  formData.append('city', city);
+  formData.append('state', state);
+  formData.append('description', description);
+  formData.append('zipcode', zipCode);
+  formData.append('street_address', streetAddress);
+  formData.append('admin_id', 1);
+  formData.append('land[image]', imageData);
+  
+  fetch(`/users/${user.id}/lands`, {
+    method: 'POST',
+    body: formData
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      return response.json();
+    })
+    .then(() => {
+      navigate("/");
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      // Handle the error here, for example display an error message to the user
+    });
+};
 
-    const handleFileUpload=(e)=>{
-        // setImage(e.target.files[0]);
-        
-    }
+
+    const handleImageChange = (event) => {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImageData(reader.result);
+      };
+      reader.readAsDataURL(file);
+    };
+    
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -73,7 +96,27 @@ export default function LandForm({user}) {
                       name="location"
                       id="location" 
                       className="block flex-1 border-0 bg-transparent py-1.5 px-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                      placeholder="location/area"
+                      placeholder="Land/area"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="sm:col-span-4">
+                <label
+                  htmlFor="location"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Title
+                </label>
+                <div className="mt-2">
+                  <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                    <input
+                      type="text"
+                      onChange={(e)=>setTitle(e.target.value)}
+                      name="location"
+                      id="location" 
+                      className="block flex-1 border-0 bg-transparent py-1.5 px-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                      placeholder="Land title"
                     />
                   </div>
                 </div>
@@ -191,17 +234,6 @@ export default function LandForm({user}) {
             </div>
           </div>
         </div>
-
-        <div className="mt-6 flex items-center justify-end gap-x-6 mb-10">
-          <button
-            type="submit"
-            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            Save
-          </button>
-        </div>
-      </form>
-      <form onSubmit={handleSubmit}>
         <div className="col-span-full">
           <label
             htmlFor="cover-photo"
@@ -224,10 +256,11 @@ export default function LandForm({user}) {
                   <input
                     id="file-upload"
                     name="file-upload"
-                    onChange={handleFileUpload}
+                    onChange={handleImageChange}
                     type="file"
                     className="sr-only"
                   />
+                      {imageData && <img src={imageData} alt="Selected image" />}
                 </label>
                 <p className="pl-1">or drag and drop</p>
               </div>
@@ -237,7 +270,8 @@ export default function LandForm({user}) {
             </div>
           </div>
         </div>
-        <div className="mt-6 flex items-center justify-end gap-x-6">
+
+        <div className="mt-6 flex items-center justify-end gap-x-6 mb-10">
           <button
             type="submit"
             className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -245,6 +279,9 @@ export default function LandForm({user}) {
             Save
           </button>
         </div>
+      </form>
+      <form onSubmit={handleSubmit}>
+        
       </form>
     </div>
     </>

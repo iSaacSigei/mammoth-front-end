@@ -407,7 +407,7 @@ export default function AdminDashboard({ admin }) {
                     <div className="flex flex-col items-center bg-white   shadow md:flex-row md:max-w-full hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
                       <img
                         className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
-                        src={land.image}
+                        src={land.image.url}
                         alt="land_image"
                       />
                       <div className="flex flex-col justify-between p-4 leading-normal">
