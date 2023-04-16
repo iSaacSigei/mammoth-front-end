@@ -1,7 +1,7 @@
 import { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import AdminBody from "./AdminBody";
+import AllUsers from './AllUsers'
 import Logo from "../../components/images/woolly-mammoth-drawing-elephant-clip-art-png-favpng-DvwsEH9iK0Cdqa7LLSPm6PD83-removebg-preview (2).png";
 import {
   Bars3Icon,
@@ -53,15 +53,13 @@ function classNames(...classes) {
 
 export default function AdminDashboard({ admin }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  console.log(admin.id)
-  const [lands, setLands] = useState([]);
-  console.log(lands)
+  const [users, setUsers] = useState([]);
   useEffect(() => {
-   fetch(`/admins/${admin.id}/lands`)
+   fetch(`/admins/${admin.id}/users`)
    .then(r=>r.json())
    .then((data)=>{
     console.log(data)
-    setLands(data)
+    setUsers(data)
    })
   }, [admin.id]);
 
@@ -376,7 +374,7 @@ export default function AdminDashboard({ admin }) {
 
           <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">
-              <AdminBody lands={lands} />
+              <AllUsers users={users}/>
             </div>
           </main>
         </div>

@@ -7,6 +7,7 @@ import { Route, Routes } from "react-router-dom";
 import Admin from "./components/Admin/AdminDashboard"
 import AdminLogin from './components/Admin/AdminLogin'
 import LandPage from './components/Admin/LandPage'
+import Users from './components/Admin/Users'
 export default function App() {
   const [user, setUser]=useState({})
   const [admin, setAdmin]=useState({})
@@ -39,6 +40,7 @@ export default function App() {
       <Route path="/admin" element={<Admin admin={admin}/>}/>
       <Route path='/admin_signin' element={<AdminLogin/>}/>
       <Route path="/admin/give_quotation/:id" element={<LandPage admin={admin}/>}/>
+      <Route path='/admins/users' element={<Users admin={admin}/>}/>
     </Routes>
 
     </>
