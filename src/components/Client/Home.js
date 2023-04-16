@@ -1,10 +1,12 @@
 import React from "react";
 import Footer from "./Footer";
-import Testimonials from "./Testimonials";
+import NavBar from "./NavBar";
+import Testimonials from "../Testimonials";
 import { Link } from "react-router-dom";
-const Home = () => {
+const Home = ({user}) => {
   return (
     <>
+    <NavBar user={user}/>
       <div className="bg-gray-700">
         <div className=" py-32 sm:py-48 lg:py-56">
           <div className="text-center">
