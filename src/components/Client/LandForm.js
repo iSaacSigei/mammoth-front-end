@@ -15,40 +15,39 @@ export default function LandForm({user}) {
     const [imageData, setImageData] = useState(null);
     const [title, setTitle] = useState("")
     const navigate = useNavigate();
-console.log(imageData)
 
-const handleLand = (e) => {
-  e.preventDefault();
-  const formData = new FormData();
-  formData.append('location', location);
-  formData.append('title', title);
-  formData.append('city', city);
-  formData.append('state', state);
-  formData.append('description', description);
-  formData.append('zipcode', zipCode);
-  formData.append('street_address', streetAddress);
-  formData.append('admin_id', 1);
-  formData.append('land[image]', imageData);
-  
-  fetch(`/users/${user.id}/lands`, {
-    method: 'POST',
-    body: formData
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      return response.json();
-    })
-    .then(() => {
-      navigate("/");
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      // Handle the error here, for example display an error message to the user
-    });
-};
-
+    const handleLand=(e)=>{
+        e.preventDefault()
+        fetch(`/users/${user.id}/lands`,{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                location:location,
+                title:title,
+                city:city,
+                state:state,
+                description:description,
+                zipcode:zipCode,
+                street_address:streetAddress,
+                admin_id: 1,
+                image: {url: imageData}
+            })
+        }).then((response) => {
+          if (!response.ok) {
+            throw new Error(response.statusText);
+          }
+          return response.json();
+        })
+        .then(() => {
+          navigate("/");
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          // Handle the error here, for example display an error message to the user
+        });
+    }
 
     const handleImageChange = (event) => {
       const file = event.target.files[0];
@@ -270,6 +269,14 @@ const handleLand = (e) => {
             </div>
           </div>
         </div>
+        {/* <div className="mt-6 flex items-center justify-end gap-x-6">
+          <button
+            type="submit"
+            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Save
+          </button>
+        </div> */}
 
         <div className="mt-6 flex items-center justify-end gap-x-6 mb-10">
           <button
