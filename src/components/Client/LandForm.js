@@ -51,12 +51,15 @@ export default function LandForm({user}) {
 
     const handleImageChange = (event) => {
       const file = event.target.files[0];
+      console.log("Selected file:", file);
       const reader = new FileReader();
       reader.onload = () => {
+        console.log("Loaded image data:", reader.result);
         setImageData(reader.result);
       };
       reader.readAsDataURL(file);
     };
+    
     
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -112,8 +115,8 @@ export default function LandForm({user}) {
                     <input
                       type="text"
                       onChange={(e)=>setTitle(e.target.value)}
-                      name="location"
-                      id="location" 
+                      name="title"
+                      id="title" 
                       className="block flex-1 border-0 bg-transparent py-1.5 px-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       placeholder="Land title"
                     />
