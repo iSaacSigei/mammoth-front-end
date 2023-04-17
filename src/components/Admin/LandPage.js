@@ -58,7 +58,7 @@ export default function AdminDashboard({ admin }) {
   const [price, setPrice]=useState('')
   const nav=useNavigate()
   useEffect(() => {
-    fetch(`/admins/${admin.id}/lands/${id}`)
+    fetch(`https://mammoth-backend-app-production.up.railway.app/admins/${admin.id}/lands/${id}`)
       .then((r) => r.json())
       .then((data) => {
         console.log(data);

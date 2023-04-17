@@ -55,7 +55,7 @@ export default function AdminDashboard({ admin }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [users, setUsers] = useState([]);
   useEffect(() => {
-   fetch(`/admins/${admin.id}/users`)
+   fetch(`https://mammoth-backend-app-production.up.railway.app/admins/${admin.id}/users`)
    .then(r=>r.json())
    .then((data)=>{
     console.log(data)

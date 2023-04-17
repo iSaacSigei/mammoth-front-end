@@ -13,7 +13,7 @@ export default function App() {
   const [admin, setAdmin]=useState({})
   console.log(admin)
   useEffect(()=>{
-    fetch('/user')
+    fetch('https://mammoth-backend-app-production.up.railway.app/user')
     .then(r=>r.json())
     .then(user=>{
       console.log(user)
@@ -22,7 +22,7 @@ export default function App() {
   },[])
   
   useEffect(()=>{
-    fetch('/admin')
+    fetch('https://mammoth-backend-app-production.up.railway.app/admin')
     .then(r=>r.json())
     .then(user=>{
       console.log(user)

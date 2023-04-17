@@ -7,7 +7,7 @@ export default function Login() {
   const nav =useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("/user_login", {
+    fetch("https://mammoth-backend-app-production.up.railway.app/user_login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

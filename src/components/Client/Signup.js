@@ -12,7 +12,7 @@ export default function Signup() {
 
     const nav=useNavigate()
     const showToastMessage = () => {
-        toast.success("Signup Successfull!", {
+        toast("Signup Successfull!", {
           position: toast.POSITION.TOP_CENTER,
           className: 'toast-message'    
         });
@@ -21,7 +21,7 @@ export default function Signup() {
       function handleSubmit(e) {
         e.preventDefault();
         setErrors([]);
-        fetch("/users", {
+        fetch("https://mammoth-backend-app-production.up.railway.app/users", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

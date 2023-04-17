@@ -57,7 +57,7 @@ export default function AdminDashboard({ admin }) {
   const [lands, setLands] = useState([]);
   console.log(lands)
   useEffect(() => {
-   fetch(`/admins/${admin.id}/lands`)
+   fetch(`https://mammoth-backend-app-production.up.railway.app/admins/${admin.id}/lands`)
    .then(r=>r.json())
    .then((data)=>{
     console.log(data)
