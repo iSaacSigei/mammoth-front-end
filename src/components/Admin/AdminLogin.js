@@ -4,6 +4,7 @@ import Logo from "../images/woolly-mammoth-drawing-elephant-clip-art-png-favpng-
 export default function AdminLogin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  
   const nav=useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,7 +20,10 @@ export default function AdminLogin() {
     }).then((r) => {
       if (r.ok) {
         r.json().then(() => {
+          setTimeout(()=>{
             nav('/admin')
+
+          },1000)
         });
       }
     });

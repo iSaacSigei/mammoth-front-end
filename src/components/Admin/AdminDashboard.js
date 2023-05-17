@@ -43,24 +43,35 @@ const navigation = [
 ];
 const teams = [{ id: 1, name: "Our Admins", href: "#", current: true }];
 
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
-
 export default function AdminDashboard({ admin }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  console.log(admin.id)
   const [lands, setLands] = useState([]);
-  console.log(lands)
+  const [pendingCount, setPendingCount] = useState(0);
+  const [acceptedCount, setAcceptedCount] = useState(0);
+  const [declinedCount, setDeclinedCount] = useState(0);
+
   useEffect(() => {
-   fetch(`/admins/${admin.id}/lands`)
-   .then(r=>r.json())
-   .then((data)=>{
-    console.log(data)
-    setLands(data)
-   })
-  }, [admin.id]);
+    if (admin?.id) {
+      fetch(`/admins/${admin.id}/lands`)
+        .then((r) => r.json())
+        .then((data) => {
+          console.log(data);
+          setLands(data);
+          // Filter and count lands based on status
+          const pendingLands = data.filter((land) => land.status === 'pending');
+          const acceptedLands = data.filter((land) => land.status === 'accepted');
+          const declinedLands = data.filter((land) => land.status === 'declined');
+          setPendingCount(pendingLands.length);
+          setAcceptedCount(acceptedLands.length);
+          setDeclinedCount(declinedLands.length);
+        })
+        .catch((error) => console.error(error));
+    }
+  }, [admin?.id]);
+
   const history = useNavigate();
 
   const handleSignout = () => {
@@ -75,7 +86,7 @@ export default function AdminDashboard({ admin }) {
       })
       .catch((error) => console.error(error));
   };
-  
+  // Rest of your code...
 
   return (
     <>
@@ -338,7 +349,7 @@ export default function AdminDashboard({ admin }) {
                     <span className="sr-only">Open user menu</span>
                     <img
                       className="h-8 w-8 rounded-full bg-gray-50"
-                      src={admin.avatar}
+                      src=""
                       alt=""
                     />
                     <span className="hidden lg:flex lg:items-center">
@@ -346,7 +357,7 @@ export default function AdminDashboard({ admin }) {
                         className="ml-4 text-sm font-semibold leading-6 text-gray-900"
                         aria-hidden="true"
                       >
-                        {admin.username}
+                        
                       </span>
                       <ChevronDownIcon
                         className="ml-2 h-5 w-5 text-gray-400"
@@ -363,7 +374,7 @@ export default function AdminDashboard({ admin }) {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
- <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <Menu.Item>
                         {({ active }) => (
                           <Link
@@ -393,7 +404,7 @@ export default function AdminDashboard({ admin }) {
                       <Menu.Item>
                         {({ active }) => (
                           <button
-                          onClick={handleSignout}
+                            onClick={handleSignout}
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700"
@@ -412,7 +423,7 @@ export default function AdminDashboard({ admin }) {
 
           <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">
-              <AdminBody lands={lands} />
+              <AdminBody lands={lands} pending={pendingCount} decline={declinedCount} accepted={acceptedCount} />
             </div>
           </main>
         </div>

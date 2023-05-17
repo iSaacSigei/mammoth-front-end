@@ -37,7 +37,7 @@ export default function AllLands({lands}) {
                     scope="col"
                     className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
                   >
-                    ParcelID
+                    Parcel ID
                   </th>
 
                   <th
@@ -51,12 +51,6 @@ export default function AllLands({lands}) {
                     className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
                     Status
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
-                    Location
                   </th>
                   <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
                     Give Quotation
@@ -91,24 +85,19 @@ export default function AllLands({lands}) {
                       </div>
                     </td>
                     <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                      <div className="text-gray-900">{land.par}</div>
                       <div className="mt-1 text-gray-500">
                         {land.parcel_id}
                       </div>
                     </td>
                     <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                      <div className="text-gray-900">{land.title}</div>
                       <div className="mt-1 text-gray-500">
                         {land.description}
                       </div>
                     </td>
                     <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                       <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                        Active
+                        {land.status}
                       </span>
-                    </td>
-                    <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                      {land.street_address}
                     </td>
                     <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                       <Link

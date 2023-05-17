@@ -15,7 +15,6 @@ export default function LandForm({ user }) {
   const [imageData, setImageData] = useState(null);
   const [title, setTitle] = useState("");
   const navigate = useNavigate();
-  console.log(imageData);
   const notify = () => toast("Your property information has been received!", {
     position: toast.POSITION.TOP_CENTER,
     className: "toast-message",
@@ -29,6 +28,7 @@ export default function LandForm({ user }) {
     formData.append("title", title);
     formData.append("city", city);
     formData.append("state", state);
+    formData.append("status","pending")
     formData.append("description", description);
     formData.append("zipcode", zipCode);
     formData.append("street_address", streetAddress);
@@ -75,7 +75,7 @@ export default function LandForm({ user }) {
       <ToastContainer />
 
       <NavBar user={user} />
-      <div className="lg:m-auto lg:w-1/2 md:px-10 sm:px-10 pt-12 mb-12 pb-12">
+      <div className="lg:m-auto lg:w-1/2 md:px-10 sm:m-10 pt-12 mb-12 pb-12 sm:w-full">
         <form onSubmit={handleLand}>
           <div className="space-y-12">
             <div className="border-b border-gray-900/10 pb-12">
