@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../images/woolly-mammoth-drawing-elephant-clip-art-png-favpng-DvwsEH9iK0Cdqa7LLSPm6PD83-removebg-preview (2).png";
 const navigation = [
   { name: "Home", href: "/", current: true },
@@ -14,7 +14,22 @@ function classNames(...classes) {
 }
 
 export default function NavBar({ user }) {
-  console.log(user.username);
+  const history = useNavigate();
+
+  const handleSignout = () => {
+    fetch('/logout/user', {
+      method: 'DELETE',
+    })
+      .then((response) => {
+        if (response.ok) {
+          // navigate to root route once logout request is successful
+          history('/');
+          window.location.reload()
+        }
+      })
+      .catch((error) => console.error(error));
+  };
+  
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -77,7 +92,7 @@ export default function NavBar({ user }) {
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
-                  {user.error==="Not authorized"?(<div>
+                  {user===null?(<div>
                     <Menu.Button className="flex  bg-gray-800 text-sm focus:outline-none">
                       <Link
                         to="/user/login"
@@ -90,7 +105,7 @@ export default function NavBar({ user }) {
                   (<div>
                     <Menu.Button className="flex  bg-gray-800 text-sm focus:outline-none">
                       <span className="text-white pr-2  ">Welcome </span>
-                      <p className="text-white"> {user.username}</p>
+                      <p className="text-white"> {}</p>
                     </Menu.Button>
                   </div>)}
                   <Transition
@@ -132,6 +147,7 @@ export default function NavBar({ user }) {
                       <Menu.Item>
                         {({ active }) => (
                           <button
+                          onClick={handleSignout}
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700"

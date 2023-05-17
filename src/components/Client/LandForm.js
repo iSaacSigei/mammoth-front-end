@@ -4,50 +4,58 @@ import 'react-toastify/dist/ReactToastify.css';
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import NavBar from "./NavBar";
 import { useNavigate } from "react-router-dom";
-export default function LandForm({user}) {
-    console.log(user)
-    const [location, setLocation]=useState("")
-    const [description, setDescription]=useState("")
-    const [streetAddress, setStreetAddress]=useState("")
-    const [city, setCity]=useState("")
-    const [state, setState]=useState("")
-    const [zipCode, setZipCode]=useState("")
-    const [imageData, setImageData] = useState(null);
-    const [title, setTitle] = useState("")
-    const navigate = useNavigate();
+export default function LandForm({ user }) {
+  console.log(user);
+  const [location, setLocation] = useState("");
+  const [description, setDescription] = useState("");
+  const [streetAddress, setStreetAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  const [imageData, setImageData] = useState(null);
+  const [title, setTitle] = useState("");
+  const navigate = useNavigate();
+  console.log(imageData);
+  const notify = () => toast("Your property information has been received!", {
+    position: toast.POSITION.TOP_CENTER,
+    className: "toast-message",
+  });
 
-    const handleLand=(e)=>{
-        e.preventDefault()
-        fetch(`/users/${user.id}/lands`,{
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json'
-            },
-            body:JSON.stringify({
-                location:location,
-                title:title,
-                city:city,
-                state:state,
-                description:description,
-                zipcode:zipCode,
-                street_address:streetAddress,
-                admin_id: 1,
-                image: {url: imageData}
-            })
-        }).then((response) => {
-          if (!response.ok) {
-            throw new Error(response.statusText);
-          }
-          return response.json();
-        })
-        .then(() => {
-          navigate("/");
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          // Handle the error here, for example display an error message to the user
-        });
-    }
+
+  const handleLand = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("location", location);
+    formData.append("title", title);
+    formData.append("city", city);
+    formData.append("state", state);
+    formData.append("description", description);
+    formData.append("zipcode", zipCode);
+    formData.append("street_address", streetAddress);
+    formData.append("admin_id", 1);
+    formData.append("land[image]", imageData);
+    console.log(formData.get("land[image]"));
+
+    fetch(`/users/${user.id}/lands`, {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => {
+        if (response.ok) {
+          response.json().then(()=>{
+            notify()
+            setTimeout(() => {
+    
+              navigate("/");
+            },2000)
+          })
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        // Handle the error here, for example display an error message to the user
+      });
+  };
 
     const handleImageChange = (event) => {
       const file = event.target.files[0];

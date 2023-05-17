@@ -17,14 +17,20 @@ export default function Login() {
         password: password,
       }),
     })
-    .then(r=>{
-        if(r.ok){
-            r.json().then(()=>{
-                nav('/user/landform')
-            })
-        }
-    })
+    .then(r => {
+      if (r.ok) {
+        r.json().then(user => {
+          // Store user data in session
+          sessionStorage.setItem("user", JSON.stringify(user));
+          nav('/user/landform');
+          window.location.reload();
+        });
+      } else {
+        console.log("Login failed.");
+      }
+    });
   };
+  
   return (
     <>
       <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
