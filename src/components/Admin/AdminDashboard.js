@@ -1,5 +1,5 @@
 import { Fragment, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import AdminBody from "./AdminBody";
 import Logo from "../../components/images/woolly-mammoth-drawing-elephant-clip-art-png-favpng-DvwsEH9iK0Cdqa7LLSPm6PD83-removebg-preview (2).png";
@@ -42,10 +42,7 @@ const navigation = [
   { name: "Reports", href: "/reports", icon: ChartPieIcon, current: false },
 ];
 const teams = [{ id: 1, name: "Our Admins", href: "#", current: true }];
-const userNavigation = [
-  { name: "Your profile", href: "#" },
-  { name: "Sign out", href: "#" },
-];
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -57,13 +54,28 @@ export default function AdminDashboard({ admin }) {
   const [lands, setLands] = useState([]);
   console.log(lands)
   useEffect(() => {
-   fetch(`https://mammoth-backend-app-production.up.railway.app/admins/${admin.id}/lands`)
+   fetch(`/admins/${admin.id}/lands`)
    .then(r=>r.json())
    .then((data)=>{
     console.log(data)
     setLands(data)
    })
   }, [admin.id]);
+  const history = useNavigate();
+
+  const handleSignout = () => {
+    fetch('/logout/admin', {
+      method: 'DELETE',
+    })
+      .then((response) => {
+        if (response.ok) {
+          // navigate to root route once logout request is successful
+          history('/');
+        }
+      })
+      .catch((error) => console.error(error));
+  };
+  
 
   return (
     <>
@@ -351,22 +363,46 @@ export default function AdminDashboard({ admin }) {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                      {userNavigation.map((item) => (
-                        <Menu.Item key={item.name}>
-                          {({ active }) => (
-                            <Link
-                              to={item.href}
-                              className={classNames(
-                                active ? "bg-gray-50" : "",
-                                "block px-3 py-1 text-sm leading-6 text-gray-900"
-                              )}
-                            >
-                              {item.name}
-                            </Link>
-                          )}
-                        </Menu.Item>
-                      ))}
+ <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <Menu.Item>
+                        {({ active }) => (
+                          <Link
+                            to="/user/profile"
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block px-4 py-2 text-sm text-gray-700"
+                            )}
+                          >
+                            Your Profile
+                          </Link>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <Link
+                            to="/user/profile"
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block px-4 py-2 text-sm text-gray-700"
+                            )}
+                          >
+                            Settings
+                          </Link>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                          onClick={handleSignout}
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block px-4 py-2 text-sm text-gray-700"
+                            )}
+                          >
+                            Sign out
+                          </button>
+                        )}
+                      </Menu.Item>
                     </Menu.Items>
                   </Transition>
                 </Menu>

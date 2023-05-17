@@ -16,7 +16,10 @@ export default function LandForm({ user }) {
   const [title, setTitle] = useState("");
   const navigate = useNavigate();
   console.log(imageData);
-  const notify = () => toast("You details have been received!");
+  const notify = () => toast("Your property information has been received!", {
+    position: toast.POSITION.TOP_CENTER,
+    className: "toast-message",
+  });
 
 
   const handleLand = (e) => {
@@ -33,7 +36,7 @@ export default function LandForm({ user }) {
     formData.append("land[image]", imageData);
     console.log(formData.get("land[image]"));
 
-    fetch(`https://mammoth-backend-app-production.up.railway.app/users/${user.id}/lands`, {
+    fetch(`/users/${user.id}/lands`, {
       method: "POST",
       body: formData,
     })

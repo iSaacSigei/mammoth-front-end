@@ -76,7 +76,7 @@ export default function AllLands({lands}) {
                         <div className="h-11 w-11 flex-shrink-0">
                           <img
                             className="h-11 w-11 rounded-full"
-                            src={land.image.url}
+                            src={land.image}
                             alt=""
                           />
                         </div>

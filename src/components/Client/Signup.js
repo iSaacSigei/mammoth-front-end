@@ -21,7 +21,7 @@ export default function Signup() {
       function handleSubmit(e) {
         e.preventDefault();
         setErrors([]);
-        fetch("https://mammoth-backend-app-production.up.railway.app/users", {
+        fetch("/users", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

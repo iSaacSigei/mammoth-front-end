@@ -7,7 +7,7 @@ export default function Login() {
   const nav =useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("https://mammoth-backend-app-production.up.railway.app/user_login", {
+    fetch("/user_login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -17,14 +17,20 @@ export default function Login() {
         password: password,
       }),
     })
-    .then(r=>{
-        if(r.ok){
-            r.json().then(()=>{
-                nav('/user/landform')
-            })
-        }
-    })
+    .then(r => {
+      if (r.ok) {
+        r.json().then(user => {
+          // Store user data in session
+          sessionStorage.setItem("user", JSON.stringify(user));
+          nav('/user/landform');
+          window.location.reload();
+        });
+      } else {
+        console.log("Login failed.");
+      }
+    });
   };
+  
   return (
     <>
       <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">

@@ -9,27 +9,49 @@ import AdminLogin from './components/Admin/AdminLogin'
 import LandPage from './components/Admin/LandPage'
 import Users from './components/Admin/Users'
 export default function App() {
-  const [user, setUser]=useState({})
-  const [admin, setAdmin]=useState({})
-  console.log(admin)
-  useEffect(()=>{
-    fetch('https://mammoth-backend-app-production.up.railway.app/user')
-    .then(r=>r.json())
-    .then(user=>{
-      console.log(user)
-      setUser(user)
-    })
-  },[])
+  const [user, setUser] = useState(null);
+  const [admin, setAdmin] = useState(null);
+  console.log(user);
+  console.log(admin);
   
-  useEffect(()=>{
-    fetch('https://mammoth-backend-app-production.up.railway.app/admin')
-    .then(r=>r.json())
-    .then(user=>{
-      console.log(user)
-      setAdmin(user)
+  useEffect(() => {
+    fetch('/user', {
+      credentials: 'include'
     })
-  },[])
-
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(user => {
+        setUser(user);
+      })
+      .catch(error => {
+        console.error('Error fetching user:', error);
+        // Handle error state here
+      });
+  }, []);
+  
+  useEffect(() => {
+    fetch('/admin', {
+      credentials: 'include'
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(admin => {
+        setAdmin(admin);
+      })
+      .catch(error => {
+        console.error('Error fetching admin:', error);
+        // Handle error state here
+      });
+  }, []);
+  
   return (
     <>
     <Routes>
